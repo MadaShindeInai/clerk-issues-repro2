@@ -8,7 +8,12 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
 import { PropsWithChildren, useEffect, useState } from "react";
+
+const UserButton2 = ({ children }: PropsWithChildren) => {
+  return <div className="hidden hover:visible">{children}</div>;
+};
 
 const Layout = ({ children }: PropsWithChildren) => {
   const { user } = useUser();
@@ -56,6 +61,13 @@ const Layout = ({ children }: PropsWithChildren) => {
               )}
             </UserButton.MenuItems>
           </UserButton>
+          <UserButton2>
+            {!!data && data.isExpert ? (
+              <p>UserButton2.myExpertPage</p>
+            ) : (
+              <p>UserButton2.becomeExpert</p>
+            )}
+          </UserButton2>
         </SignedIn>
       </header>
       {!!data && data.isExpert ? (
@@ -69,8 +81,23 @@ const Layout = ({ children }: PropsWithChildren) => {
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { asPath } = useRouter();
   return (
-    <ClerkProvider {...pageProps}>
+    <ClerkProvider
+      {...pageProps}
+      localization={{
+        footerPageLink__help: "By signing up you agree to our",
+        footerPageLink__privacy: "privacy policy",
+        footerPageLink__terms: "and",
+      }}
+      appearance={{
+        elements: {
+          selectOptionsContainer: "text-foreground dark:text-background",
+          formButtonPrimary: "bg-primary text-black body-bold shadow-clerkbtn",
+        },
+      }}
+      afterSignOutUrl={asPath}
+    >
       <Layout>
         <Component {...pageProps} />
       </Layout>
