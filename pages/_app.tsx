@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { PropsWithChildren, useEffect, useState } from "react";
 
 const UserButton2 = ({ children }: PropsWithChildren) => {
-  return <div className="hidden hover:visible">{children}</div>;
+  return <div>{children}</div>;
 };
 
 const Layout = ({ children }: PropsWithChildren) => {
@@ -63,17 +63,21 @@ const Layout = ({ children }: PropsWithChildren) => {
           </UserButton>
           <UserButton2>
             {!!data && data.isExpert ? (
-              <p>UserButton2.myExpertPage</p>
+              <p className="border border-purple-800">
+                UserButton2.myExpertPage
+              </p>
             ) : (
-              <p>UserButton2.becomeExpert</p>
+              <p className="border border-b-amber-900">
+                UserButton2.becomeExpert
+              </p>
             )}
           </UserButton2>
         </SignedIn>
       </header>
       {!!data && data.isExpert ? (
-        <p>btn.myExpertPage</p>
+        <p className="border border-red-800">btn.myExpertPage</p>
       ) : (
-        <p>btn.becomeExpert</p>
+        <p className="border border-blue-800">btn.becomeExpert</p>
       )}
       {children}
     </div>
